@@ -12,7 +12,7 @@ class tagpost extends Command
      *
      * @var string
      */
-    protected $signature = 'tagpost {tag}';
+    protected $signature = 'tagpost';
 
     /**
      * The console command description.
@@ -38,7 +38,7 @@ class tagpost extends Command
      */
     public function handle()
     {
-        $input = $this->argument('tag');
+        $input = $this->ask('Enter a tag to find specified post.');
         $tag = Post::GetTagPost($input)->get();
         $head = ['id', 'title', 'content', 'created_at', 'updated_at'];
         $this->table($head, $tag);
