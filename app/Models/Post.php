@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -11,14 +12,15 @@ class Post extends Model
 
     public function tag() {
 
-		return $this->belongsToMany(Post::class, 'post_tags', 'tag_id', 'post_id')->withTimestamps();
+		return $this->belongsToMany(Post::class, 'post_tags', 'post_id', 'tag_id')->withTimestamps();
 		
 	}
 
-	public function scopeGetTagPost($query, $tag_id) {
+	public function scopeGetTagPost($query, $input) {
 
-		$tag = PostTag::GetTagPost($tag_id)->get();
-		return $query->whereIn('id', $tag);
+		return $query->whereHas('tag', function (Builder $query) use ($input) {
+			$query->whereIn('id', Tag::GetTagPost($input)->get());
+		});
 
 	}
 }
