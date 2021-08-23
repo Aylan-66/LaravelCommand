@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
@@ -11,7 +13,7 @@ class Tag extends Model
 
     public function post() {
 
-        return $this->belongsToMany(Post::class,  'post_tags', 'tag_id', 'post_id')->withTimestamps();
+        return $this->belongsToMany(Post::class,  'post_tags', 'post_id', 'tag_id')->withTimestamps();
         
     }
 
